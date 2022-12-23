@@ -108,16 +108,26 @@ export default function Home() {
                 </p>
                 <PageButton
                   onClick={() => {
-                    router.push("/products");
+                    router.push("/auth/login");
                   }}
                 >
-                  Start shopping <PlayCircle className="mx-2" color={colors.darkSilver} size={25} />
+                  Start shopping{" "}
+                  <PlayCircle
+                    className="mx-2"
+                    color={colors.darkSilver}
+                    size={25}
+                  />
                 </PageButton>
               </div>
             </Col>
             <Col sm="12" md="7" lg="7">
               <div className="d-flex justify-content-end">
-                <Image width={windowSize.innerWidth * 0.43} src={SplashImage} />
+                <Image
+                  width={windowSize.innerWidth * 0.43}
+                  height="auto"
+                  src={SplashImage}
+                  alt="splach screen image"
+                />
               </div>
             </Col>
           </Row>

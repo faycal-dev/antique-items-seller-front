@@ -49,7 +49,7 @@ export const SideBarMenu = styled.ul`
   }
 `;
 
-export const SideBarLink = styled.a`
+export const SideBarLink = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -60,7 +60,7 @@ export const SideBarLink = styled.a`
   color: #fff;
   cursor: pointer;
   &:hover {
-    color: ${colors.primary2};
+    color: ${colors.brown};
     transition: 0.2s ease-in-out;
     transform: scale(1.1);
   }
@@ -70,10 +70,9 @@ export const SideBtnWrap = styled.div`
   display: flex;
   justify-content: center;
 `;
-export const SideBarRoute = styled.a`
+export const SideBarRoute = styled.div`
   border-radius: 50px;
-  background: ${({ isAuthenticated }) =>
-    isAuthenticated ? colors.danger : colors.primary2};
+  background: ${colors.danger};
   white-space: nowrap;
   padding: 10px 25px;
   color: ${colors.white};

@@ -80,7 +80,7 @@ export const NavItem = styled.li`
   display: flex;
 `;
 
-export const NavLinks = styled.a`
+export const NavLinks = styled.div`
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -90,74 +90,15 @@ export const NavLinks = styled.a`
   padding-bottom: 0.3rem;
   justify-content: flex-end;
   flex-direction: column;
-
   cursor: pointer;
   border-bottom: ${({ isActive }) =>
-    isActive ? "3px solid " + colors.primary2 : ""};
-  color: ${({ isActive }) => (isActive ? colors.primary2 : colors.dark)};
-
+    isActive ? `3px solid ${colors.brown}` : ""};
+  color: ${({ isActive }) => (isActive ? colors.brown : colors.dark)};
 
   &:hover {
     transition: 0.1s all ease-in-out;
-    color: ${colors.primary2};
+    color: ${colors.brown};
     transform: scale(1.05);
-  }
-`;
-
-export const DropDownContainer = styled("div")`
-  height: 65px;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-`;
-
-export const DropDownHeader = styled("div")`
-  display: flex;
-  align-items: flex-end;
-  text-decoration: none;
-  padding: 0 1rem;
-  min-height: 65px;
-  font-weight: 600;
-  padding-bottom: 1.2rem;
-  cursor: pointer;
-
-  color: ${({ isActive }) => (isActive ? colors.primary2 : colors.dark)};
-
-  &:hover {
-    transition: 0.5s all ease-in-out;
-    color: ${colors.primary2};
-    transform: scale(1.05);
-  }
-`;
-
-export const DropDownListContainer = styled("div")`
-  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
-`;
-
-export const DropDownList = styled("ul")`
-  padding: 0 1rem 1rem 1rem;
-  background: ${colors.white};
-  border: 2px solid ${colors.greyFade2};
-  border-radius: 5px;
-  color: ${colors.dark};
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
-  font-size: 1rem;
-
-  &:first-child {
-    /* padding-top: 0.8em; */
-  }
-`;
-
-export const ListItem = styled("li")`
-  list-style: none;
-  margin-top: 1rem;
-  cursor: pointer;
-  &:hover {
-    transition: 0.5s all ease-in-out;
-    color: ${colors.primary2};
-    transform: scale(1.1);
   }
 `;
 
@@ -173,12 +114,11 @@ export const NavBtn = styled.nav`
 
 export const NavBtnLink = styled.a`
   border-radius: 5px;
-  background: ${({ loggedIn }) => (loggedIn ? colors.danger : colors.primary2)};
+  background: ${colors.danger};
   white-space: nowrap;
   padding: 6px 13px;
   color: ${colors.white};
-  border: ${({ loggedIn }) =>
-    loggedIn ? `2px solid ${colors.danger}` : `2px solid ${colors.primary2}`};
+  border: 2px solid ${colors.danger};
 
   font-size: 16px;
   outline: none;
@@ -188,7 +128,7 @@ export const NavBtnLink = styled.a`
 
   &:hover {
     transition: all 0.2s ease-in-out;
-    color: ${({ loggedIn }) => (loggedIn ? colors.danger : colors.primary2)};
+    color: ${colors.danger};
     background: ${colors.white};
   }
 `;

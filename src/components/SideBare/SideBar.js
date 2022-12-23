@@ -18,14 +18,10 @@ import {
   Heart,
   User,
 } from "react-feather";
+import { logoutHandler } from "../../utils/logoutHandler";
 
 const SideBar = ({ isOpen, toggle }) => {
   const router = useRouter();
-
-  const logoutHandler = () => {
-    // if (dispatch && dispatch !== null && dispatch !== undefined)
-    //   dispatch(logout());
-  };
 
   return (
     <SideBareContainer isOpen={isOpen} onClick={toggle}>
@@ -34,32 +30,14 @@ const SideBar = ({ isOpen, toggle }) => {
       </Icon>
       <SideBareWrapper>
         <SideBarMenu>
-          <Link href="/products">
-            <SideBarLink isActive={router.pathname === "/products"}>
+          <Link className="text-decoration-none" href="/home">
+            <SideBarLink isActive={router.pathname === "/home"}>
               <ShoppingBag size={20} style={{ marginRight: 5 }} /> Shop
-            </SideBarLink>
-          </Link>
-          <Link href="/wishlist">
-            <SideBarLink isActive={router.pathname === "/wishList"}>
-              <Heart size={20} style={{ marginRight: 5 }} />
-              WishList
-            </SideBarLink>
-          </Link>
-          <Link href="/cart">
-            <SideBarLink isActive={router.pathname === "/cart"}>
-              <ShoppingCart size={20} style={{ marginRight: 5 }} />
-              Cart
-            </SideBarLink>
-          </Link>
-          <Link href="/orders">
-            <SideBarLink isActive={router.pathname === "/orders"}>
-              <Clock size={20} style={{ marginRight: 5 }} />
-              Orders
             </SideBarLink>
           </Link>
         </SideBarMenu>
         <SideBtnWrap>
-          <SideBarRoute isAuthenticated={true} onClick={logoutHandler}>
+          <SideBarRoute onClick={() => logoutHandler(router)}>
             Log out
           </SideBarRoute>
         </SideBtnWrap>
