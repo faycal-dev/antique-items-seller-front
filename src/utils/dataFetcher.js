@@ -1,6 +1,14 @@
 export const dataFetcher = async (context, url) => {
   const access = context.req.cookies.access;
 
+  let pagination = {
+    current: 1,
+    previous: null,
+    next: "",
+    last: 1,
+  };
+  let data = [];
+
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -11,14 +19,12 @@ export const dataFetcher = async (context, url) => {
       },
     });
     const res = await response.json();
-    let pagination = {
-      current: 1,
-      previous: null,
-      next: "",
-      last: 1,
-    };
-    let data = [];
     if (response.status === 200) {
+      // in case there is no pagination (fetching a specific product for example)
+      if (!res?.results) {
+        data = res;
+        return data;
+      }
       pagination = {
         current: 1,
         previous: res.previous,

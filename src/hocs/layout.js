@@ -23,7 +23,7 @@ const Layout = ({ title, content, children }) => {
       </Head>
       <Navbar toggle={toggle} />
       <SideBar isOpen={isOpen} toggle={toggle} />
-      <div className="mt-3 pb-4">{children}</div>
+      <div className="mt-3 pb-4" style={{overflowX: "hidden"}}>{children}</div>
     </div>
   );
 };

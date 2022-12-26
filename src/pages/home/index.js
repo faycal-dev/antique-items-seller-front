@@ -1,18 +1,26 @@
 import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
-import CustomPagination from "../../components/pagination/pagination";
+import CustomPagination from "../../components/Pagination/pagination";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import { Input } from "../../components/Input/Input";
 import { API_URL } from "../../config";
 import Layout from "../../hocs/layout";
 import { dataFetcher } from "../../utils/dataFetcher";
 import { verifyAuthentication } from "../../utils/verifyAuthentication";
 import SweetAlert from "react-bootstrap-sweetalert";
 import colors from "../../constants/colors";
-
+import { CustomSelect } from "../../components/Select/CustomSelect";
 
 export default function Index({ products, pagination }) {
+  const options = [
+    { value: "h", label: "Highest price" },
+    { value: "l", label: "Lowest price" },
+  ];
   const [items, setItems] = useState(products);
   const [page, setPage] = useState(pagination);
+  const [searchText, setSearchText] = useState("");
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState({
     title: "",
     body: "",
@@ -82,7 +90,76 @@ export default function Index({ products, pagination }) {
     }
   };
 
-  if (items.length == 0) {
+  const onSearchTextChange = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const SearchProducts = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/api?search=${searchText}`);
+      const posts = await res.json();
+      if (res.status === 200) {
+        setItems(posts.results);
+        const paginationData = {
+          current: 1,
+          previous: posts.previous,
+          next: posts.next,
+          last: posts.count,
+        };
+        setPage(paginationData);
+      } else {
+        setAlert({
+          title: "Search failed",
+          body: posts.detail,
+          show: true,
+          success: false,
+        });
+      }
+    } catch (error) {
+      setAlert({
+        title: "Search failed",
+        body: error.message,
+        show: true,
+        success: false,
+      });
+    }
+    setIsLoading(false);
+  };
+
+  const productSortHandler = async (e) => {
+    try {
+      const res = await fetch(`${API_URL}/api?sort=${e.value}`);
+      const posts = await res.json();
+      if (res.status === 200) {
+        setSelectedOption(e);
+        setItems(posts.results);
+        const paginationData = {
+          current: 1,
+          previous: posts.previous,
+          next: posts.next,
+          last: posts.count,
+        };
+        setPage(paginationData);
+      } else {
+        setAlert({
+          title: "Search failed",
+          body: posts.detail,
+          show: true,
+          success: false,
+        });
+      }
+    } catch (error) {
+      setAlert({
+        title: "Sort failed",
+        body: error.message,
+        show: true,
+        success: false,
+      });
+    }
+  };
+
+  if (!items || items.length == 0) {
     return (
       <Layout title="Shop" content="List of all the products">
         <h2>there are no items to display </h2>
@@ -92,6 +169,27 @@ export default function Index({ products, pagination }) {
 
   return (
     <Layout title="Shop" content="List of all the products">
+      <Row className="px-3">
+        <Col className="my-3" lg="4" sm="12">
+          <CustomSelect
+            options={options}
+            defaultValue={selectedOption}
+            placeholder="Sort"
+            onChange={productSortHandler}
+          />
+        </Col>
+        <Col className="my-3" lg="8" sm="12">
+          <Input
+            isLoading={isLoading}
+            type="text"
+            name="Search"
+            placeholder="Search"
+            onChange={onSearchTextChange}
+            value={searchText}
+            onButtonClick={SearchProducts}
+          />
+        </Col>
+      </Row>
       <Row className="mx-3 my-3">
         {items?.map((product) => (
           <Col
@@ -125,7 +223,7 @@ export default function Index({ products, pagination }) {
             body: "",
           });
         }}
-        confirmBtnStyle={{ backgroundColor: colors.primary2, width: "40%" }}
+        confirmBtnStyle={{ backgroundColor: colors.brown, width: "40%" }}
       >
         <p className="sweet-alert-text">{alert.body}</p>
       </SweetAlert>

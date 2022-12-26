@@ -1,6 +1,8 @@
+import { FRONT_URL } from "../config";
+
 export const refreshToken = async () => {
   try {
-    const apiRes = await fetch("http://localhost:3000/api/account/refresh", {
+    const apiRes = await fetch(`${FRONT_URL}/api/account/refresh`, {
       method: "GET",
       headers: {
         Accept: "application/json",

@@ -10,14 +10,7 @@ import {
   SideBtnWrap,
 } from "./SideBareElements";
 import { useRouter } from "next/router";
-import {
-  XCircle,
-  ShoppingBag,
-  ShoppingCart,
-  Clock,
-  Heart,
-  User,
-} from "react-feather";
+import { XCircle, ShoppingBag, User } from "react-feather";
 import { logoutHandler } from "../../utils/logoutHandler";
 
 const SideBar = ({ isOpen, toggle }) => {
@@ -33,6 +26,11 @@ const SideBar = ({ isOpen, toggle }) => {
           <Link className="text-decoration-none" href="/home">
             <SideBarLink isActive={router.pathname === "/home"}>
               <ShoppingBag size={20} style={{ marginRight: 5 }} /> Shop
+            </SideBarLink>
+          </Link>
+          <Link className="text-decoration-none" href="/profile">
+            <SideBarLink isActive={router.pathname === "/profile"}>
+              <User size={20} style={{ marginRight: 5 }} /> Profile
             </SideBarLink>
           </Link>
         </SideBarMenu>

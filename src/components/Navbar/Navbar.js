@@ -1,11 +1,4 @@
-import {
-  List,
-  Heart,
-  ShoppingCart,
-  ShoppingBag,
-  Clock,
-  User,
-} from "react-feather";
+import { List, ShoppingBag, User } from "react-feather";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -45,6 +38,14 @@ const Navbar = ({ toggle }) => {
                 <NavLinks isActive={router.pathname === "/home"}>
                   <ShoppingBag size={20} style={{ marginRight: 5 }} />
                   Shop
+                </NavLinks>
+              </Link>
+            </NavItem>
+            <NavItem>
+              <Link className="text-decoration-none" href="/profile">
+                <NavLinks isActive={router.pathname === "/profile"}>
+                  <User size={20} style={{ marginRight: 5 }} />
+                  Profile
                 </NavLinks>
               </Link>
             </NavItem>

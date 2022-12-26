@@ -259,7 +259,7 @@ function Login() {
             body: "",
           });
         }}
-        confirmBtnStyle={{ backgroundColor: colors.primary2, width: "40%" }}
+        confirmBtnStyle={{ backgroundColor: colors.brown, width: "40%" }}
       >
         <p className="sweet-alert-text">{alert.body}</p>
       </SweetAlert>

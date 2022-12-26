@@ -10,13 +10,20 @@ import {
   ButtonContainer,
   LinkText,
 } from "./productCardElements";
-import { Heart, ShoppingCart, Star, X } from "react-feather";
+import { Star, Trash2, Edit } from "react-feather";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import colors from "../../constants/colors";
 import { Spinner } from "react-bootstrap";
+import { AutoBidButton } from "../ProductDetailComponents/ProductDetailsComponents";
 
-function ProductCard({ product, isAdmin }) {
+function ProductCard({
+  product,
+  isAdmin,
+  AdminDelete,
+  AdminEdit,
+  AdminViewBids,
+}) {
   const router = useRouter();
 
   const PushToDetailsPage = (slug) => {
@@ -30,7 +37,7 @@ function ProductCard({ product, isAdmin }) {
         onClick={() => PushToDetailsPage(product.slug)}
       >
         <Image
-          src={product.product_image[0].image}
+          src={product?.product_image[0]?.image}
           width={250}
           height={200}
           quality={100}
@@ -55,15 +62,21 @@ function ProductCard({ product, isAdmin }) {
       <CardStatWrapper>
         <ButtonContainer>
           {isAdmin ? (
-            <CardButton onClick={() => PushToDetailsPage(product.slug)}>
-              <Spinner
-                as="span"
-                animation="border"
-                size="lg"
-                role="status"
-                aria-hidden="true"
-              />
-            </CardButton>
+            <div className="d-flex align-items-center justify-content-between py-1 px-1">
+              <AutoBidButton onClick={() => AdminEdit(product)}>
+                <Edit size={22} color={colors.greyDark} />
+              </AutoBidButton>
+              <AutoBidButton
+                className="rounded mx-1"
+                onClick={() => AdminViewBids(product.slug)}
+              >
+                <LinkText>See bids</LinkText>
+              </AutoBidButton>
+
+              <AutoBidButton onClick={() => AdminDelete(product.slug)}>
+                <Trash2 size={22} color={colors.greyDark} />
+              </AutoBidButton>
+            </div>
           ) : (
             <CardButton onClick={() => PushToDetailsPage(product.slug)}>
               <LinkText>Bid Now</LinkText>
