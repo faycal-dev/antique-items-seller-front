@@ -297,7 +297,7 @@ export default function Index2({ categorys, pagination, products }) {
     const response = await dataSender(data, url, methode);
     if (response.success) {
       const body = response.message.map((bid) => (
-        <p>
+        <p key={bid.user.user.user_name}>
           bid: {bid.bidding_amount} ---&gt; user: {bid.user.full_name}
         </p>
       ));

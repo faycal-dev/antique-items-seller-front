@@ -172,7 +172,13 @@ function Product({ product, bidInfo }) {
             sm="12"
             className="d-flex align-items-center justify-content-center"
           >
-            <Image src={selectedImage} width={300} height={300} quality={100} />
+            <Image
+              src={selectedImage}
+              width={300}
+              height={300}
+              quality={100}
+              alt="product selected image"
+            />
           </Col>
           <Col
             md="7"
@@ -220,6 +226,7 @@ function Product({ product, bidInfo }) {
                     width={90}
                     height={90}
                     quality={100}
+                    alt="product images"
                   />
                 </ImageContainer>
               ))}
