@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Countdown from "react-countdown";
-import { API_URL } from "../../config";
+import { API_URL, WS_API_URL } from "../../config";
 import Layout from "../../hocs/Layout";
 import { Col, Container } from "react-bootstrap";
 import colors from "../../constants/colors";
@@ -32,18 +32,28 @@ function Product({ product, bidInfo }) {
   const [bidding, setBidding] = useState(bidInfo);
   const [yourBid, setYourBid] = useState(parseFloat(product.regular_price) + 1);
   const [show, setShow] = useState(false);
+  const [price, setPrice] = useState(product.regular_price);
   const [alert, setAlert] = useState({
     title: "",
     body: "",
     show: false,
     success: false,
   });
+  const [socket, setSocket] = useState();
+  useEffect(() => {
+    const wsocket = new WebSocket(`${WS_API_URL}/ws/product/${product.slug}/`);
+    setSocket(wsocket);
+    wsocket.onmessage = function (e) {
+      let data = JSON.parse(e.data);
+      setPrice(parseFloat(data.real_time_price));
+    };
+  }, []);
 
   const toggleModal = () => {
     setShow((prev) => !prev);
   };
   const bidHandler = async () => {
-    if (bidding.bid == product.regular_price) {
+    if (bidding.bid == price) {
       setAlert({
         title: "You are the winner bid till now",
         body: "you can't bid on a product while you are the winner",
@@ -56,7 +66,7 @@ function Product({ product, bidInfo }) {
   };
 
   const submitBidHandler = async () => {
-    if (yourBid <= product.regular_price) {
+    if (yourBid <= price) {
       setAlert({
         title: "Wrong bid",
         body: "your bid must be grater than the last bid",
@@ -77,6 +87,7 @@ function Product({ product, bidInfo }) {
           show: true,
           success: true,
         });
+        socket.send(JSON.stringify({ slug: product.slug }));
         toggleModal();
         window.location.reload(false);
       } else {
@@ -103,7 +114,7 @@ function Product({ product, bidInfo }) {
       const response = await dataSender(data, url);
       if (response.success) {
         if (
-          bidding.bid != product.regular_price &&
+          bidding.bid != price &&
           response.message == "Product auto bidding added"
         ) {
           setAlert({
@@ -196,7 +207,7 @@ function Product({ product, bidInfo }) {
               <SmallText>{product.category.name}</SmallText>
             </div>
             <div className="d-flex">
-              <PriceText>{product.regular_price} $</PriceText>
+              <PriceText>{price} $</PriceText>
               <Star
                 className="mt-1"
                 size={20}
