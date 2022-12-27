@@ -78,7 +78,7 @@ function Product({ product, bidInfo }) {
           success: true,
         });
         toggleModal();
-        router.push("/home");
+        window.location.reload(false);
       } else {
         setAlert({
           title: "Fail",
